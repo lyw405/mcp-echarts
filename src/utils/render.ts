@@ -1,4 +1,4 @@
-import { createCanvas } from "@napi-rs/canvas";
+import { createCanvas } from "canvas";
 import * as echarts from "echarts";
 import type { EChartsOption } from "echarts";
 
@@ -10,7 +10,6 @@ export function renderECharts(
   outputType: "png" | "svg" | "option" = "png",
 ): string {
   if (outputType === "svg" || outputType === "option") {
-    // 在 SSR 模式下第一个参数不需要再传入 DOM 对象
     const chart = echarts.init(null, theme, {
       renderer: "svg",
       ssr: true,
