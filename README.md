@@ -3,7 +3,7 @@
 Generate <img src="https://echarts.apache.org/zh/images/favicon.png" height="14"/> [Apache ECharts](https://echarts.apache.org/) diagram and chart with AI MCP dynamically. Using for chart generation and data analysis.
 
 <div align="center">
-  <img width="648" alt="mcp-echarts" src="https://mdn.alipayobjects.com/huamei_1gdzij/afts/img/A*vwGqSKDW1OoAAAAARqAAAAgAemB7AQ/fmt.webp" />
+  <img width="648" alt="mcp-echarts" src="https://mdn.alipayobjects.com/huamei_1gdzij/afts/img/A*s3w3SpMMPDQAAAAARzAAAAgAemB7AQ/original" />
 </div>
 
 ## ✨ Features
