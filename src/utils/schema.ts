@@ -1,5 +1,44 @@
-import type { z } from "zod";
+import { z } from "zod";
 import { zodToJsonSchema as zodToJsonSchemaOriginal } from "zod-to-json-schema";
+
+export const AxisXTitleSchema = z
+  .string()
+  .optional()
+  .default("")
+  .describe("Set the x-axis title of chart.");
+
+export const AxisYTitleSchema = z
+  .string()
+  .optional()
+  .default("")
+  .describe("Set the y-axis title of chart.");
+
+export const HeightSchema = z
+  .number()
+  .int()
+  .positive()
+  .optional()
+  .default(600)
+  .describe("Set the height of the chart, default is 600px.");
+
+export const ThemeSchema = z
+  .enum(["default", "dark"])
+  .optional()
+  .default("default")
+  .describe("Set the theme for the chart, optional, default is 'default'.");
+
+export const TitleSchema = z
+  .string()
+  .optional()
+  .describe("Set the title of the chart.");
+
+export const WidthSchema = z
+  .number()
+  .int()
+  .positive()
+  .optional()
+  .default(800)
+  .describe("Set the width of the chart, default is 800px.");
 
 // TODO: use zod v4 JSON to schema to replace zod-to-json-schema when v4 is stable
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
