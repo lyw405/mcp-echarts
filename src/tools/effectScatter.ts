@@ -1,4 +1,4 @@
-import type { EChartsOption, SeriesOption, SeriesTooltipOption } from "echarts";
+import type { EChartsOption, SeriesOption } from "echarts";
 import { z } from "zod";
 import { renderECharts } from "../utils/render";
 import {
