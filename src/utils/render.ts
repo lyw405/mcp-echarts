@@ -13,13 +13,17 @@ const fontPath = path.join(
 
 GlobalFonts.registerFromPath(fontPath, "sans-serif");
 
-export function renderECharts(
+/**
+ * Render ECharts chart, return Buffer or string
+ * This is a pure function that doesn't handle storage logic
+ */
+export async function renderECharts(
   echartsOption: EChartsOption,
   width = 800,
   height = 600,
   theme = "default",
   outputType: "png" | "svg" | "option" = "png",
-): string {
+): Promise<Buffer | string> {
   if (outputType === "svg" || outputType === "option") {
     const chart = echarts.init(null, theme, {
       renderer: "svg",
@@ -70,5 +74,5 @@ export function renderECharts(
 
   chart.dispose();
 
-  return buffer.toString("base64");
+  return buffer;
 }
