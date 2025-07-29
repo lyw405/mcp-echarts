@@ -11,7 +11,7 @@
           "properties": {
             "category": {
               "type": "string",
-              "description": "Category of the data point, such as '分类一'."
+              "description": "Category of the data point, such as 'Category A'."
             },
             "value": {
               "type": "number",
@@ -21,7 +21,7 @@
           "required": ["category", "value"]
         },
         "minItems": 1,
-        "description": "Data for pie chart, such as, [{ category: '分类一', value: 27 }, { category: '分类二', value: 25 }]."
+        "description": "Data for pie chart, such as, [{ category: 'Category A', value: 27 }, { category: 'Category B', value: 25 }]."
       },
       "height": {
         "type": "integer",

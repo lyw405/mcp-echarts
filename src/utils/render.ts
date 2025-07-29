@@ -33,18 +33,18 @@ export function renderECharts(
       animation: false,
     });
 
-    // 输出字符串
+    // Output string
     const svgStr = chart.renderToSVGString();
 
-    // 如果不再需要图表，调用 dispose 以释放内存
+    // If the chart is no longer needed, call dispose to free memory
     chart.dispose();
-    // 返回 SVG 字符串 或者进过运行校验的 ECharts 配置项
+    // Return SVG string or validated ECharts configuration options
     return outputType === "svg"
       ? svgStr
       : JSON.stringify(echartsOption, null, 2);
   }
 
-  // 其他输出类型（如 PNG）需要使用 Canvas
+  // Other output types (such as PNG) need to use Canvas
   const canvas = createCanvas(width, height) as unknown as HTMLCanvasElement;
   const chart = echarts.init(canvas, theme, {
     devicePixelRatio: 3,
