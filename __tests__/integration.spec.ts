@@ -3,29 +3,29 @@ import { tools } from "../src/tools";
 import { generateBarChartTool, generateEChartsTool } from "../src/tools";
 
 /**
- * 集成测试套件
- * 测试图表工具在各种边界条件和错误情况下的行为
- * 确保工具的健壮性和一致性
+ * Integration test suite
+ * Test the behavior of chart tools under various boundary conditions and error scenarios
+ * Ensure tool robustness and consistency
  */
 describe("integration tests", () => {
   /**
-   * 错误处理测试
-   * 验证工具在接收到无效输入时能够正确抛出错误
+   * Error handling tests
+   * Verify that tools correctly throw errors when receiving invalid input
    */
   describe("error handling", () => {
     it("should handle empty data arrays", async () => {
       try {
         await generateBarChartTool.run({
           data: [],
-          title: "空数据测试",
+          title: "Empty Data Test",
           width: 800,
           height: 600,
           theme: "default",
         });
-        // 如果没有抛出错误，说明测试失败
+        // If no error is thrown, the test fails
         expect(true).toBe(false);
       } catch (error) {
-        // 验证确实抛出了错误
+        // Verify that an error was indeed thrown
         expect(error).toBeDefined();
       }
     });
@@ -33,16 +33,16 @@ describe("integration tests", () => {
     it("should handle invalid JSON in echarts option", async () => {
       try {
         await generateEChartsTool.run({
-          echartsOption: "invalid json", // 故意传入无效的 JSON 字符串
+          echartsOption: "invalid json", // Intentionally pass invalid JSON string
           width: 800,
           height: 600,
           theme: "default",
           outputType: "png",
         });
-        // 如果没有抛出错误，说明测试失败
+        // If no error is thrown, the test fails
         expect(true).toBe(false);
       } catch (error) {
-        // 验证确实抛出了错误
+        // Verify that an error was indeed thrown
         expect(error).toBeDefined();
       }
     });
@@ -50,100 +50,100 @@ describe("integration tests", () => {
     it("should handle missing required fields", async () => {
       try {
         await generateBarChartTool.run({
-          // 故意传入缺少必需字段 value 的数据
+          // Intentionally pass data missing required field 'value'
           data: [{ category: "test" }] as Array<{
             category: string;
             value: number;
             group?: string;
           }>,
-          title: "缺少字段测试",
+          title: "Missing Field Test",
           width: 800,
           height: 600,
           theme: "default",
         });
-        // 如果没有抛出错误，说明测试失败
+        // If no error is thrown, the test fails
         expect(true).toBe(false);
       } catch (error) {
-        // 验证确实抛出了错误
+        // Verify that an error was indeed thrown
         expect(error).toBeDefined();
       }
     });
   });
 
   /**
-   * 边界情况测试
-   * 测试工具在极端参数下的表现
+   * Boundary case tests
+   * Test tool performance under extreme parameters
    */
   describe("boundary cases", () => {
     it("should handle very small dimensions", async () => {
-      // 测试极小尺寸的图表生成
+      // Test chart generation with very small dimensions
       const result = await generateBarChartTool.run({
         data: [{ category: "test", value: 10 }],
-        title: "小尺寸测试",
+        title: "Small Size Test",
         width: 100,
         height: 100,
         theme: "default",
       });
 
-      // 验证结果的基本结构
+      // Verify basic structure of the result
       expect(result).toBeDefined();
       expect(result.content).toBeDefined();
       expect(result.content.length).toBeGreaterThan(0);
     });
 
     it("should handle very large dimensions", async () => {
-      // 测试超大尺寸的图表生成
+      // Test chart generation with very large dimensions
       const result = await generateBarChartTool.run({
         data: [{ category: "test", value: 10 }],
-        title: "大尺寸测试",
+        title: "Large Size Test",
         width: 2000,
         height: 2000,
         theme: "default",
       });
 
-      // 验证结果的基本结构
+      // Verify basic structure of the result
       expect(result).toBeDefined();
       expect(result.content).toBeDefined();
       expect(result.content.length).toBeGreaterThan(0);
     });
 
     it("should handle large datasets", async () => {
-      // 生成包含1000个数据点的大数据集
+      // Generate large dataset with 1000 data points
       const largeData = Array.from({ length: 1000 }, (_, i) => ({
-        category: `项目${i}`,
+        category: `Project${i}`,
         value: Math.random() * 100,
       }));
 
       const result = await generateBarChartTool.run({
         data: largeData,
-        title: "大数据集测试",
+        title: "Large Dataset Test",
         width: 800,
         height: 600,
         theme: "default",
       });
 
-      // 验证大数据集能够正常处理
+      // Verify that large datasets can be processed normally
       expect(result).toBeDefined();
       expect(result.content).toBeDefined();
       expect(result.content.length).toBeGreaterThan(0);
     });
 
     it("should handle extreme values", async () => {
-      // 测试极值数据的处理
+      // Test handling of extreme value data
       const result = await generateBarChartTool.run({
         data: [
-          { category: "极小值", value: Number.MIN_SAFE_INTEGER },
-          { category: "极大值", value: Number.MAX_SAFE_INTEGER },
-          { category: "零值", value: 0 },
-          { category: "负值", value: -100 },
+          { category: "Min Value", value: Number.MIN_SAFE_INTEGER },
+          { category: "Max Value", value: Number.MAX_SAFE_INTEGER },
+          { category: "Zero Value", value: 0 },
+          { category: "Negative Value", value: -100 },
         ],
-        title: "极值测试",
+        title: "Extreme Value Test",
         width: 800,
         height: 600,
         theme: "default",
       });
 
-      // 验证极值数据能够正常处理
+      // Verify that extreme value data can be processed normally
       expect(result).toBeDefined();
       expect(result.content).toBeDefined();
       expect(result.content.length).toBeGreaterThan(0);
@@ -151,24 +151,24 @@ describe("integration tests", () => {
   });
 
   /**
-   * 配置组合测试
-   * 测试不同配置参数的组合效果
+   * Configuration combination tests
+   * Test the effects of different configuration parameter combinations
    */
   describe("configuration combinations", () => {
     it("should handle all theme combinations", async () => {
       const themes = ["default", "dark"] as const;
 
-      // 遍历所有支持的主题
+      // Iterate through all supported themes
       for (const theme of themes) {
         const result = await generateBarChartTool.run({
           data: [{ category: "test", value: 10 }],
-          title: `主题测试: ${theme}`,
+          title: `Theme Test: ${theme}`,
           width: 800,
           height: 600,
           theme,
         });
 
-        // 验证每个主题都能正常工作
+        // Verify that each theme works properly
         expect(result).toBeDefined();
         expect(result.content).toBeDefined();
         expect(result.content.length).toBeGreaterThan(0);
@@ -177,15 +177,15 @@ describe("integration tests", () => {
 
     it("should handle all output types for echarts", async () => {
       const outputTypes = ["png", "svg", "option"] as const;
-      // 定义一个简单的 ECharts 配置
+      // Define a simple ECharts configuration
       const echartsOption = {
-        title: { text: "测试图表" },
+        title: { text: "Test Chart" },
         xAxis: { data: ["A", "B", "C"] },
         yAxis: {},
         series: [{ type: "bar", data: [1, 2, 3] }],
       };
 
-      // 测试所有输出类型
+      // Test all output types
       for (const outputType of outputTypes) {
         const result = await generateEChartsTool.run({
           echartsOption: JSON.stringify(echartsOption),
@@ -199,7 +199,7 @@ describe("integration tests", () => {
         expect(result.content).toBeDefined();
         expect(result.content.length).toBeGreaterThan(0);
 
-        // 根据输出类型验证特定的内容格式
+        // Verify specific content format based on output type
         if (outputType === "svg") {
           expect(result.content[0].type).toBe("text");
           expect(result.content[0]).toHaveProperty("text");
@@ -209,10 +209,10 @@ describe("integration tests", () => {
           expect(result.content[0]).toHaveProperty("text");
           const optionText = result.content[0]?.text;
           expect(optionText).toBeDefined();
-          // 验证返回的是有效的 JSON
+          // Verify that the returned value is valid JSON
           expect(() => JSON.parse(optionText as string)).not.toThrow();
         } else {
-          // PNG 输出类型
+          // PNG output type
           expect(result.content[0].type).toBe("image");
           expect(result.content[0]).toHaveProperty("data");
           expect(result.content[0].mimeType).toBe("image/png");
@@ -222,28 +222,28 @@ describe("integration tests", () => {
   });
 
   /**
-   * 工具一致性测试
-   * 确保所有图表工具都遵循相同的接口规范
+   * Tool consistency tests
+   * Ensure all chart tools follow the same interface specifications
    */
   describe("tool consistency", () => {
     it("should have consistent return structure across all tools", async () => {
-      // 选择几个代表性的工具进行测试
+      // Select several representative tools for testing
       const barChartTool = tools.find((t) => t.name === "generate_bar_chart");
       const pieChartTool = tools.find((t) => t.name === "generate_pie_chart");
       const lineChartTool = tools.find((t) => t.name === "generate_line_chart");
 
-      // 确保工具都存在
+      // Ensure all tools exist
       expect(barChartTool).toBeDefined();
       expect(pieChartTool).toBeDefined();
       expect(lineChartTool).toBeDefined();
 
-      // 定义不同图表类型的测试用例
+      // Define test cases for different chart types
       const testCases = [
         {
           tool: barChartTool,
           params: {
             data: [{ category: "test", value: 10 }],
-            title: "一致性测试",
+            title: "Consistency Test",
             width: 800,
             height: 600,
             theme: "default" as const,
@@ -253,7 +253,7 @@ describe("integration tests", () => {
           tool: pieChartTool,
           params: {
             data: [{ category: "test", value: 10 }],
-            title: "一致性测试",
+            title: "Consistency Test",
             width: 800,
             height: 600,
             theme: "default" as const,
@@ -263,7 +263,7 @@ describe("integration tests", () => {
           tool: lineChartTool,
           params: {
             data: [{ time: "2023-01", value: 10 }],
-            title: "一致性测试",
+            title: "Consistency Test",
             width: 800,
             height: 600,
             theme: "default" as const,
@@ -271,12 +271,12 @@ describe("integration tests", () => {
         },
       ];
 
-      // 遍历测试用例，验证返回结构的一致性
+      // Iterate through test cases to verify consistency of return structure
       for (const { tool, params } of testCases) {
         if (tool) {
           const result = await tool.run(params as never);
 
-          // 验证所有工具都返回相同的基本结构
+          // Verify that all tools return the same basic structure
           expect(result).toBeDefined();
           expect(result).toHaveProperty("content");
           expect(Array.isArray(result.content)).toBe(true);
@@ -290,10 +290,10 @@ describe("integration tests", () => {
     });
 
     it("should have all tools properly exported", () => {
-      // 验证工具总数是否正确
+      // Verify that the total number of tools is correct
       expect(tools).toHaveLength(17);
 
-      // 定义期望的工具名称列表
+      // Define the expected list of tool names
       const expectedToolNames = [
         "generate_echarts",
         "generate_line_chart",
@@ -314,38 +314,38 @@ describe("integration tests", () => {
         "generate_tree_chart",
       ];
 
-      // 验证实际导出的工具名称与期望一致
+      // Verify that the actual exported tool names match expectations
       const actualNames = tools.map((tool) => tool.name).sort();
       expect(actualNames).toEqual(expectedToolNames.sort());
     });
   });
 
   /**
-   * 性能测试
-   * 确保图表生成在合理的时间内完成
+   * Performance tests
+   * Ensure tools can complete tasks within reasonable time limits
    */
   describe("performance", () => {
     it("should generate charts within reasonable time", async () => {
-      // 记录开始时间
+      // Record start time
       const startTime = Date.now();
 
-      // 生成包含100个数据点的图表
+      // Generate chart with 100 data points
       await generateBarChartTool.run({
         data: Array.from({ length: 100 }, (_, i) => ({
-          category: `项目${i}`,
+          category: `Category${i}`,
           value: Math.random() * 100,
         })),
-        title: "性能测试",
+        title: "Performance Test",
         width: 800,
         height: 600,
         theme: "default",
       });
 
-      // 计算执行时间
+      // Calculate execution time
       const endTime = Date.now();
       const duration = endTime - startTime;
 
-      // 验证图表生成在5秒内完成（性能要求）
+      // Verify that chart generation completes within 5 seconds (performance requirement)
       expect(duration).toBeLessThan(5000);
     });
   });

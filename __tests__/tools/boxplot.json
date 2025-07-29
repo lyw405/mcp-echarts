@@ -21,7 +21,7 @@
           "properties": {
             "category": {
               "type": "string",
-              "description": "Category of the data point, such as '分类一'."
+              "description": "Category of the data point, such as 'Category A'."
             },
             "value": {
               "type": "number",
@@ -35,7 +35,7 @@
           "required": ["category", "value"]
         },
         "minItems": 1,
-        "description": "Data for boxplot chart, such as, [{ category: '分类一', value: 10 }, { category: '分类二', value: 20, group: '组别一' }]."
+        "description": "Data for boxplot chart, such as, [{ category: 'Category A', value: 10 }, { category: 'Category B', value: 20, group: 'Group A' }]."
       },
       "height": {
         "type": "integer",

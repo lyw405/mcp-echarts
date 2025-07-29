@@ -20,7 +20,7 @@ import {
 } from "../../src/tools";
 import { zodToJsonSchema } from "../schema";
 
-// 导入预期的JSON Schema定义文件
+// Import expected JSON Schema definition files
 import barExpected from "./bar.json";
 import boxplotExpected from "./boxplot.json";
 import candlestickExpected from "./candlestick.json";
@@ -40,108 +40,108 @@ import treeExpected from "./tree.json";
 import treemapExpected from "./treemap.json";
 
 /**
- * 图表工具JSON Schema验证测试套件
- * 验证每个图表工具的输入模式定义是否与预期的JSON Schema一致
- * 确保工具接口的稳定性和向后兼容性
+ * Chart tools JSON Schema validation test suite
+ * Validates that each chart tool's input schema definition matches the expected JSON Schema
+ * Ensures tool interface stability and backward compatibility
  */
 describe("charts schema check", () => {
   /**
-   * 图表工具测试配置数组
-   * 包含所有17个图表工具的名称、工具实例和预期Schema
+   * Chart tool test configuration array
+   * Contains names, tool instances, and expected schemas for all 17 chart tools
    */
   const chartTests = [
-    { name: "echarts", tool: generateEChartsTool, expected: echartsExpected }, // 通用ECharts工具
-    { name: "line", tool: generateLineChartTool, expected: lineExpected }, // 折线图工具
-    { name: "bar", tool: generateBarChartTool, expected: barExpected }, // 柱状图工具
-    { name: "pie", tool: generatePieChartTool, expected: pieExpected }, // 饼图工具
-    { name: "radar", tool: generateRadarChartTool, expected: radarExpected }, // 雷达图工具
+    { name: "echarts", tool: generateEChartsTool, expected: echartsExpected }, // Generic ECharts tool
+    { name: "line", tool: generateLineChartTool, expected: lineExpected }, // Line chart tool
+    { name: "bar", tool: generateBarChartTool, expected: barExpected }, // Bar chart tool
+    { name: "pie", tool: generatePieChartTool, expected: pieExpected }, // Pie chart tool
+    { name: "radar", tool: generateRadarChartTool, expected: radarExpected }, // Radar chart tool
     {
       name: "scatter",
       tool: generateScatterChartTool,
-      expected: scatterExpected, // 散点图工具
+      expected: scatterExpected, // Scatter chart tool
     },
-    { name: "sankey", tool: generateSankeyChartTool, expected: sankeyExpected }, // 桑基图工具
-    { name: "funnel", tool: generateFunnelChartTool, expected: funnelExpected }, // 漏斗图工具
-    { name: "gauge", tool: generateGaugeChartTool, expected: gaugeExpected }, // 仪表盘工具
+    { name: "sankey", tool: generateSankeyChartTool, expected: sankeyExpected }, // Sankey chart tool
+    { name: "funnel", tool: generateFunnelChartTool, expected: funnelExpected }, // Funnel chart tool
+    { name: "gauge", tool: generateGaugeChartTool, expected: gaugeExpected }, // Gauge chart tool
     {
       name: "treemap",
       tool: generateTreemapChartTool,
-      expected: treemapExpected, // 矩形树图工具
+      expected: treemapExpected, // Treemap chart tool
     },
     {
       name: "sunburst",
       tool: generateSunburstChartTool,
-      expected: sunburstExpected, // 旭日图工具
+      expected: sunburstExpected, // Sunburst chart tool
     },
     {
       name: "heatmap",
       tool: generateHeatmapChartTool,
-      expected: heatmapExpected, // 热力图工具
+      expected: heatmapExpected, // Heatmap chart tool
     },
     {
       name: "candlestick",
       tool: generateCandlestickChartTool,
-      expected: candlestickExpected, // K线图工具
+      expected: candlestickExpected, // Candlestick chart tool
     },
     {
       name: "boxplot",
       tool: generateBoxplotChartTool,
-      expected: boxplotExpected, // 箱线图工具
+      expected: boxplotExpected, // Boxplot chart tool
     },
-    { name: "graph", tool: generateGraphChartTool, expected: graphExpected }, // 关系图工具
+    { name: "graph", tool: generateGraphChartTool, expected: graphExpected }, // Graph chart tool
     {
       name: "parallel",
       tool: generateParallelChartTool,
-      expected: parallelExpected, // 平行坐标图工具
+      expected: parallelExpected, // Parallel coordinates chart tool
     },
-    { name: "tree", tool: generateTreeChartTool, expected: treeExpected }, // 树图工具
+    { name: "tree", tool: generateTreeChartTool, expected: treeExpected }, // Tree chart tool
   ];
 
   /**
-   * 为每个图表工具创建独立的Schema验证测试
-   * 验证工具的实际Schema与预期Schema完全匹配
+   * Create independent Schema validation tests for each chart tool
+   * Validates that the tool's actual Schema matches the expected Schema exactly
    */
   for (const { name, tool, expected } of chartTests) {
     it(`should check schema for ${name} chart`, () => {
-      // 从工具中提取除run函数外的所有属性
+      // Extract all properties except the run function from the tool
       const { run, inputSchema, ...rest } = tool;
 
-      // 构建实际的Schema对象，将Zod Schema转换为JSON Schema
+      // Build the actual Schema object, converting Zod Schema to JSON Schema
       const actualSchema = {
         ...rest,
         inputSchema: zodToJsonSchema(inputSchema),
       };
 
-      // 验证实际Schema与预期Schema完全匹配
+      // Validate that the actual Schema matches the expected Schema exactly
       expect(actualSchema).toEqual(expected);
     });
   }
 
   /**
-   * 工具名称唯一性验证
-   * 确保所有图表工具的名称都是唯一的，避免命名冲突
+   * Tool name uniqueness validation
+   * Ensures all chart tool names are unique to avoid naming conflicts
    */
   it("should have unique tool names", () => {
-    // 提取所有工具的名称
+    // Extract all tool names
     const names = chartTests.map((test) => test.expected.name);
     const uniqueNames = new Set(names);
 
-    // 验证去重后的名称数量与原始数量相同
+    // Validate that the number of unique names matches the original count
     expect(uniqueNames.size).toBe(names.length);
   });
 
   /**
-   * 工具基本属性完整性验证
-   * 验证每个工具都包含必需的属性和正确的Schema结构
+   * Tool basic properties completeness validation
+   * Validates that each tool contains required properties and correct Schema structure
    */
   it("should have required properties for all tools", () => {
     for (const { name, expected } of chartTests) {
-      // 验证工具包含基本属性
+      // Validate that tools contain basic properties
       expect(expected).toHaveProperty("name");
       expect(expected).toHaveProperty("description");
       expect(expected).toHaveProperty("inputSchema");
 
-      // 验证inputSchema的基本结构
+      // Validate basic structure of inputSchema
       expect(expected.inputSchema).toHaveProperty("type", "object");
       expect(expected.inputSchema).toHaveProperty("properties");
     }

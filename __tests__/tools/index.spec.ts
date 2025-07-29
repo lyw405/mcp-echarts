@@ -2,84 +2,84 @@ import { describe, expect, it } from "vitest";
 import { tools } from "../../src/tools";
 
 /**
- * 工具索引验证测试套件
- * 验证所有图表工具的基本结构、数量和属性是否符合规范
- * 确保工具导出的一致性和完整性
+ * Tool index validation test suite
+ * Validates the basic structure, quantity, and properties of all chart tools to ensure compliance
+ * Ensures consistency and completeness of tool exports
  */
 describe("tools index", () => {
   /**
-   * 工具数量验证
-   * 验证导出的工具总数是否符合预期（17个图表工具）
+   * Tool count validation
+   * Validates that the total number of exported tools meets expectations (17 chart tools)
    */
   it("should export all 17 chart tools", () => {
-    // 验证工具数组包含17个图表工具
+    // Validate that the tools array contains 17 chart tools
     expect(tools).toHaveLength(17);
   });
 
   /**
-   * 工具结构一致性验证
-   * 验证每个工具都具有必需的基本属性和正确的类型
+   * Tool structure consistency validation
+   * Validates that each tool has the required basic properties and correct types
    */
   it("should have consistent tool structure", () => {
     for (const tool of tools) {
-      // 验证工具包含所有必需属性
+      // Validate that tools contain all required properties
       expect(tool).toHaveProperty("name");
       expect(tool).toHaveProperty("description");
       expect(tool).toHaveProperty("inputSchema");
       expect(tool).toHaveProperty("run");
 
-      // 验证属性类型正确性
+      // Validate property type correctness
       expect(typeof tool.name).toBe("string");
       expect(typeof tool.description).toBe("string");
       expect(typeof tool.run).toBe("function");
 
-      // 验证工具名称遵循命名规范（generate_开头）
+      // Validate that tool names follow naming conventions (starting with generate_)
       expect(tool.name).toMatch(/^generate_\w+$/);
     }
   });
 
   /**
-   * 工具名称唯一性验证
-   * 确保所有工具名称都是唯一的，避免重复定义
+   * Tool name uniqueness validation
+   * Ensures all tool names are unique to avoid duplicate definitions
    */
   it("should have unique tool names", () => {
     const names = tools.map((tool) => tool.name);
     const uniqueNames = new Set(names);
 
-    // 验证去重后的名称数量与原始数量相同
+    // Validate that the number of unique names matches the original count
     expect(uniqueNames.size).toBe(names.length);
   });
 
   /**
-   * 预期工具列表完整性验证
-   * 验证所有预期的图表工具都已正确导出，确保没有遗漏
+   * Expected tool list completeness validation
+   * Validates that all expected chart tools are correctly exported, ensuring no omissions
    */
   it("should include all expected chart types", () => {
-    // 定义所有预期的图表工具名称
+    // Define all expected chart tool names
     const expectedTools = [
-      "generate_echarts", // 通用ECharts工具
-      "generate_line_chart", // 折线图
-      "generate_bar_chart", // 柱状图
-      "generate_pie_chart", // 饼图
-      "generate_radar_chart", // 雷达图
-      "generate_scatter_chart", // 散点图
-      "generate_sankey_chart", // 桑基图
-      "generate_funnel_chart", // 漏斗图
-      "generate_gauge_chart", // 仪表盘
-      "generate_treemap_chart", // 矩形树图
-      "generate_sunburst_chart", // 旭日图
-      "generate_heatmap_chart", // 热力图
-      "generate_candlestick_chart", // K线图
-      "generate_boxplot_chart", // 箱线图
-      "generate_graph_chart", // 关系图
-      "generate_parallel_chart", // 平行坐标图
-      "generate_tree_chart", // 树图
+      "generate_echarts", // Generic ECharts tool
+      "generate_line_chart", // Line chart
+      "generate_bar_chart", // Bar chart
+      "generate_pie_chart", // Pie chart
+      "generate_radar_chart", // Radar chart
+      "generate_scatter_chart", // Scatter chart
+      "generate_sankey_chart", // Sankey chart
+      "generate_funnel_chart", // Funnel chart
+      "generate_gauge_chart", // Gauge chart
+      "generate_treemap_chart", // Treemap chart
+      "generate_sunburst_chart", // Sunburst chart
+      "generate_heatmap_chart", // Heatmap chart
+      "generate_candlestick_chart", // Candlestick chart
+      "generate_boxplot_chart", // Boxplot chart
+      "generate_graph_chart", // Graph chart
+      "generate_parallel_chart", // Parallel coordinates chart
+      "generate_tree_chart", // Tree chart
     ];
 
-    // 获取实际工具名称并排序
+    // Get actual tool names and sort them
     const actualNames = tools.map((tool) => tool.name).sort();
 
-    // 验证实际工具名称与预期完全匹配
+    // Validate that actual tool names match expected ones exactly
     expect(actualNames).toEqual(expectedTools.sort());
   });
 });

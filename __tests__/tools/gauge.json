@@ -11,7 +11,7 @@
           "properties": {
             "name": {
               "type": "string",
-              "description": "Indicator name, such as 'CPU使用率'."
+              "description": "Indicator name, such as 'CPU Usage'."
             },
             "value": {
               "type": "number",
@@ -21,7 +21,7 @@
           "required": ["name", "value"]
         },
         "minItems": 1,
-        "description": "Data for gauge chart, such as, [{ name: 'CPU使用率', value: 75 }]. Multiple gauges can be displayed."
+        "description": "Data for gauge chart, such as, [{ name: 'CPU Usage', value: 75 }]. Multiple gauges can be displayed."
       },
       "height": {
         "type": "integer",
