@@ -61,7 +61,6 @@ export const generateTreemapChartTool = {
         data: data,
         left: "3%",
         right: "3%",
-        top: "5%",
         bottom: "3%",
         label: {
           show: true,
